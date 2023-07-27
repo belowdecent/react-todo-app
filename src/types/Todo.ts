@@ -1,24 +1,34 @@
-class Todo {
-  private static msInWeek: number = 6048000000;
-  private static idCounter: number = 0;
+const msInWeek: number = 6048000000;
 
-  public static dateFormatter: Intl.DateTimeFormat =
-    new Intl.DateTimeFormat("ru-RU", {
-      dateStyle: "short",
-      timeStyle: "short",
-    });
+interface Todo {
+  name: string;
+  complete: boolean;
+  createdOn: string;
+  dueTo: string;
+  id: number;
+}
 
-  constructor(
-    public name: string = "Test",
-    public complete: boolean = false,
-    public createdOn: Date = new Date(Date.now()),
-    public dueTo: Date = new Date(
-      Date.now() + Todo.msInWeek,
-    ),
-    public id: number = Todo.idCounter,
-  ) {
-    Todo.idCounter += 1;
+function createTodo({
+  name = "Test",
+  complete = false,
+  createdOn = new Date(Date.now()),
+  dueTo = new Date(Date.now() + msInWeek),
+  id,
+}: {
+  name?: string,
+  complete?: boolean,
+  createdOn?: Date
+  dueTo?: Date,
+  id: number
+}) {
+  return {
+    name,
+    complete,
+    createdOn: createdOn.toISOString(),
+    dueTo: dueTo.toISOString(),
+    id
   }
 }
 
-export default Todo;
+export default createTodo;
+export type { Todo }; 

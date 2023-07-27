@@ -1,4 +1,15 @@
-import Todo from "./types/Todo";
+import { Todo } from "./types/Todo";
+
+const dateFormatter: Intl.DateTimeFormat =
+  new Intl.DateTimeFormat("ru-RU", {
+    dateStyle: "short",
+    timeStyle: "short",
+  });
+
+const formatDate = (isoDateString: string) => {
+  const date = Date.parse(isoDateString);
+  return dateFormatter.format(date);
+}
 
 function TodoList({
   todos,
@@ -9,6 +20,8 @@ function TodoList({
   title: string;
   handleDelete: (id: number) => void
 }) {
+  console.log(todos);
+  if (todos == undefined) return <div>huh</div>;
   return (
     <>
       <h1>{title}</h1>
@@ -19,13 +32,11 @@ function TodoList({
               <h2>{todo.name}</h2>
               <br />
               <span className="created-on">
-                Created:{" "}
-                {Todo.dateFormatter.format(todo.createdOn)}
+                Created: {formatDate(todo.createdOn)}
               </span>
               <br />
               <span className="due-to">
-                Due to:{" "}
-                {Todo.dateFormatter.format(todo.dueTo)}
+                Due to: {formatDate(todo.dueTo)}
               </span>
               <button
                 onClick={() => handleDelete(todo.id)}
