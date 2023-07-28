@@ -7,38 +7,57 @@ function Home() {
   const [todos, setTodos] = useState<Todo[]>([]);
 
   const handleDelete = (id: number) => {
-    const filtered = todos.filter((todo) => todo.id != id);
+    const filtered = todos.filter((todo) => todo.id !== id);
     setTodos(filtered);
-  }
+  };
+
+  const handleSave = () => {
+    localStorage.clear();
+    localStorage.setItem(
+      "todo-data",
+      JSON.stringify({ todoData: todos }),
+    );
+  };
+
+  const handleReset = () => {
+    localStorage.clear();
+  };
 
   useEffect(() => {
-    const setData = () => {
-      let data: { todoData: Todo[] };
-      let storageData = localStorage.getItem('todo-data');
+    const createTodoData = () => {
+      const newTodos = {
+        todoData: [
+          createTodo({ id: 1 }),
+          createTodo({
+            name: "Test2",
+            complete: true,
+            id: 2,
+          }),
+        ],
+      };
 
-      if (storageData == null) {
-        data = { 
-          todoData: [
-            createTodo({ id: 1 }),
-            createTodo({ name: "Test2", complete: true, id: 2}),
-          ],
-        };
+      localStorage.clear();
+      localStorage.setItem(
+        "todo-data",
+        JSON.stringify({ data }),
+      );
 
-        localStorage.setItem(
-          'todo-data', 
-          JSON.stringify({ data })
-        );
-        console.log("Items were set");
-        setTodos(data.todoData)
-      } else {
-        console.log("set todos from data");
-        data = JSON.parse(storageData);
-        console.log(data);
-        setTodos(data.todoData);
-      }
+      return newTodos;
     };
-    console.log("rerendered");
-    setData();
+
+    let data: { todoData: Todo[] };
+    let storageData = localStorage.getItem("todo-data");
+
+    if (storageData == null) {
+      data = createTodoData();
+    } else {
+      data = JSON.parse(storageData);
+      if (data.todoData == null) {
+        data = createTodoData();
+      }
+    }
+
+    setTodos(data.todoData);
   }, []);
 
   return (
@@ -53,6 +72,8 @@ function Home() {
         title="Completed:"
         handleDelete={handleDelete}
       />
+      <button onClick={handleSave}>Save</button>
+      <button onClick={handleReset}>Reset</button>
     </div>
   );
 }

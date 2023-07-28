@@ -15,20 +15,20 @@ function createTodo({
   dueTo = new Date(Date.now() + msInWeek),
   id,
 }: {
-  name?: string,
-  complete?: boolean,
-  createdOn?: Date
-  dueTo?: Date,
-  id: number
+  name?: string;
+  complete?: boolean;
+  createdOn?: Date;
+  dueTo?: Date;
+  id: number;
 }) {
   return {
     name,
     complete,
     createdOn: createdOn.toISOString(),
     dueTo: dueTo.toISOString(),
-    id
-  }
+    id,
+  };
 }
 
 export default createTodo;
-export type { Todo }; 
+export type { Todo };

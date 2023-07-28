@@ -9,19 +9,17 @@ const dateFormatter: Intl.DateTimeFormat =
 const formatDate = (isoDateString: string) => {
   const date = Date.parse(isoDateString);
   return dateFormatter.format(date);
-}
+};
 
 function TodoList({
   todos,
   title,
-  handleDelete
+  handleDelete,
 }: {
   todos: Todo[];
   title: string;
-  handleDelete: (id: number) => void
+  handleDelete: (id: number) => void;
 }) {
-  console.log(todos);
-  if (todos == undefined) return <div>huh</div>;
   return (
     <>
       <h1>{title}</h1>
@@ -38,9 +36,7 @@ function TodoList({
               <span className="due-to">
                 Due to: {formatDate(todo.dueTo)}
               </span>
-              <button
-                onClick={() => handleDelete(todo.id)}
-              >
+              <button onClick={() => handleDelete(todo.id)}>
                 Delete this
               </button>
             </div>
